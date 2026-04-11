@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hey baby I made this let's play 😁</title>
+    <title>lets play Tic Tac Toe - Realtime</title>
     <style>
         :root {
             --primary: #ff4d6d;
@@ -13,12 +13,7 @@
             --glow: 0 0 15px rgba(255, 77, 109, 0.6);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
         body {
             background: radial-gradient(circle at center, #2b0d12 0%, #0a0506 100%);
@@ -30,15 +25,10 @@
             align-items: center;
         }
 
-        /* Balloon Animation */
         .background-balloons {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
         }
 
         .balloon {
@@ -49,36 +39,19 @@
             color: white;
             font-size: 14px;
             font-weight: bold;
-            text-align: center;
             animation: float up linear infinite;
             box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
+            display: flex; align-items: center; justify-content: center;
         }
 
         @keyframes float {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
             100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
         }
 
-        /* UI Components */
-        .container {
-            z-index: 10;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        h1 {
-            color: var(--primary);
-            text-shadow: var(--glow);
-            margin-bottom: 20px;
-            font-size: 2.2rem;
-        }
+        .container { z-index: 10; width: 90%; max-width: 400px; text-align: center; }
+        h1 { color: var(--primary); text-shadow: var(--glow); margin-bottom: 20px; }
 
         .card {
             background: rgba(255, 255, 255, 0.05);
@@ -86,161 +59,68 @@
             padding: 25px;
             border-radius: 20px;
             border: 1px solid rgba(255, 77, 109, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 77, 109, 0.3);
-            background: rgba(255,255,255,0.1);
-            color: white;
-            outline: none;
-            text-align: center;
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            border-radius: 10px; border: 1px solid rgba(255, 77, 109, 0.3);
+            background: rgba(255,255,255,0.1); color: white; text-align: center;
         }
 
         button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            width: 100%;
+            background: var(--primary); color: white; border: none;
+            padding: 12px; border-radius: 10px; cursor: pointer;
+            font-weight: bold; width: 100%; transition: 0.3s;
         }
 
-        button:hover {
-            background: var(--accent);
-            transform: scale(1.03);
-        }
-
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
         .cell {
-            aspect-ratio: 1;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
-            cursor: pointer;
-            transition: 0.2s;
+            aspect-ratio: 1; background: rgba(255,255,255,0.05);
+            border-radius: 12px; display: flex; justify-content: center;
+            align-items: center; font-size: 2.5rem; cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .cell:hover { background: rgba(255, 77, 109, 0.1); }
-
-        .cell.win-cell {
-            background: var(--primary);
-            box-shadow: var(--glow);
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-        }
-
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-
+        .status-bar { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--secondary); }
         .hidden { display: none !important; }
 
-        /* Loading & Overlays */
         .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 5, 6, 0.95);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            position: fixed; inset: 0; background: rgba(10, 5, 6, 0.95);
+            z-index: 100; display: flex; justify-content: center;
+            align-items: center; flex-direction: column;
         }
 
         .heart-loader {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            transform: rotate(45deg);
-            animation: heartBeat 1.2s infinite;
-            margin-bottom: 20px;
-            position: relative;
+            width: 50px; height: 50px; background: var(--primary);
+            transform: rotate(45deg); animation: heartBeat 1.2s infinite;
+            margin-bottom: 20px; position: relative;
         }
         .heart-loader::before, .heart-loader::after {
-            content: '';
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: absolute;
+            content: ''; width: 50px; height: 50px;
+            background: var(--primary); border-radius: 50%; position: absolute;
         }
         .heart-loader::before { left: -25px; }
         .heart-loader::after { top: -25px; }
 
         @keyframes heartBeat {
-            0% { transform: scale(1) rotate(45deg); }
+            0%, 40% { transform: scale(1) rotate(45deg); }
             20% { transform: scale(1.2) rotate(45deg); }
-            40% { transform: scale(1.1) rotate(45deg); }
-        }
-
-        .fab {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            z-index: 1000;
-            background: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-        #win-overlay h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-shadow: var(--glow);
         }
     </style>
 </head>
 <body>
 
-    <div id="loading-screen" class="overlay">
+    <div id="loading-screen" class="overlay hidden">
         <div class="heart-loader"></div>
-        <p>Connecting with sivasingh...</p>
+        <p id="loading-text">Connecting...</p>
     </div>
 
     <div class="background-balloons" id="balloon-container"></div>
 
-    <button id="music-toggle" class="fab">🎵</button>
-    <audio id="bg-music" src="love.mp3" loop></audio>
-
     <div class="container">
-        <header>
-            <h1>Realtime Love ❤️</h1>
-        </header>
-
+        <h1>Realtime Love ❤️</h1>
         <div id="setup-section" class="card">
-            <input type="text" id="room-id" placeholder="Enter Room Code (e.g. 143)">
+            <input type="text" id="room-id" placeholder="Room Code (e.g. 143)">
             <input type="text" id="player-name" placeholder="Your Name">
             <button id="join-btn">Start Game</button>
         </div>
@@ -250,7 +130,6 @@
                 <div>Room: <span id="display-room"></span></div>
                 <div id="turn-indicator">Waiting...</div>
             </div>
-
             <div class="board" id="board">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
@@ -262,118 +141,56 @@
                 <div class="cell" data-index="7"></div>
                 <div class="cell" data-index="8"></div>
             </div>
-
-            <button id="reset-btn" style="background: transparent; border: 1px solid var(--primary);">Reset Board</button>
+            <button id="reset-btn" style="background:transparent; border:1px solid var(--primary)">Reset</button>
         </div>
     </div>
 
     <div id="win-overlay" class="overlay hidden">
-        <h2 id="win-message">You won my heart 💕</h2>
-        <button onclick="location.reload()" style="width: 200px;">Play Again</button>
+        <h2 id="win-message">You won! 💕</h2>
+        <button onclick="location.reload()" style="margin-top:20px; width:200px">Play Again</button>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // EXACT CONFIG PROVIDED
         const firebaseConfig = {
             apiKey: "AIzaSyCB-631vxXfLP-Cnnc3jTf7zz_kha8g8qk",
             authDomain: "tic-tac-9253e.firebaseapp.com",
+            databaseURL: "https://tic-tac-9253e-default-rtdb.firebaseio.com",
             projectId: "tic-tac-9253e",
             storageBucket: "tic-tac-9253e.firebasestorage.app",
             messagingSenderId: "354573092432",
-            appId: "1:354573092432:web:e55d02db081b8c35fe3355",
-            measurementId: "G-WWHQLP3ZTX"
+            appId: "1:354573092432:web:d8f8672b220a80b6fe3355"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let roomId = null;
-        let mySymbol = null; 
-        let isMyTurn = false;
-        let gameActive = true;
+        let roomId, mySymbol, isMyTurn = false, gameActive = true;
 
-        const winPatterns = [
-            [0,1,2], [3,4,5], [6,7,8],
-            [0,3,6], [1,4,7], [2,5,8],
-            [0,4,8], [2,4,6]
-        ];
-
-        // Elements
         const loadingScreen = document.getElementById('loading-screen');
         const setupSection = document.getElementById('setup-section');
         const gameSection = document.getElementById('game-section');
         const cells = document.querySelectorAll('.cell');
-        const turnIndicator = document.getElementById('turn-indicator');
-        const winOverlay = document.getElementById('win-overlay');
-        const musicBtn = document.getElementById('music-toggle');
-        const musicAudio = document.getElementById('bg-music');
 
-        // Balloon Animation Logic
-        function createBalloons() {
-            const container = document.getElementById('balloon-container');
-            const colors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#ffb3c1'];
-            setInterval(() => {
-                const b = document.createElement('div');
-                b.className = 'balloon';
-                b.style.left = Math.random() * 90 + 'vw';
-                b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                b.style.width = b.style.height = (Math.random() * 30 + 70) + 'px';
-                b.style.animationDuration = (Math.random() * 5 + 7) + 's';
-                b.innerText = Math.random() > 0.5 ? "Sivasingh ❤️" : "❤️ Arpita";
-                container.appendChild(b);
-                setTimeout(() => b.remove(), 10000);
-            }, 2000);
-        }
-
-        // Audio Controls
-        musicBtn.addEventListener('click', () => {
-            if (musicAudio.paused) {
-                musicAudio.play();
-                musicBtn.innerText = '⏸️';
-            } else {
-                musicAudio.pause();
-                musicBtn.innerText = '🎵';
-            }
-        });
-
-        function playSfx(url) {
-            const audio = new Audio(url);
-            audio.volume = 0.3;
-            audio.play();
-        }
-
-        // Firebase Logic
         document.getElementById('join-btn').addEventListener('click', async () => {
             const rId = document.getElementById('room-id').value.trim();
             const pName = document.getElementById('player-name').value.trim();
-
-            if (!rId || !pName) return alert("Fill all details!");
+            if (!rId || !pName) return alert("Details bharo!");
 
             roomId = rId;
             loadingScreen.classList.remove('hidden');
 
             const roomRef = ref(db, `rooms/${roomId}`);
             const snapshot = await get(roomRef);
-            
+
             if (!snapshot.exists()) {
                 mySymbol = '❤️';
-                await set(roomRef, {
-                    board: Array(9).fill(""),
-                    turn: '❤️',
-                    winner: "",
-                    p1: pName
-                });
+                await set(roomRef, { board: Array(9).fill(""), turn: '❤️', winner: "", p1: pName });
             } else {
-                const data = snapshot.val();
-                if (!data.p2) {
-                    mySymbol = '😘';
-                    await update(roomRef, { p2: pName });
-                } else {
-                    mySymbol = '❤️'; // Default fallback
-                }
+                mySymbol = '😘';
+                await update(roomRef, { p2: pName });
             }
 
             document.getElementById('display-room').innerText = roomId;
@@ -387,74 +204,62 @@
                 const data = snapshot.val();
                 if (!data) return;
 
-                // Sync Board
                 data.board.forEach((val, idx) => {
                     cells[idx].innerText = val;
-                    if (val !== "") cells[idx].style.pointerEvents = 'none';
                 });
 
-                // Update Turn
                 isMyTurn = (data.turn === mySymbol);
-                turnIndicator.innerText = isMyTurn ? "Your Turn!" : "Partner's Turn...";
+                document.getElementById('turn-indicator').innerText = isMyTurn ? "Your Turn!" : "Waiting...";
                 
-                // Check Winner
                 if (data.winner) {
                     gameActive = false;
-                    const winMsg = document.getElementById('win-message');
-                    if (data.winner === 'draw') {
-                        winMsg.innerText = "It's a Draw! ❤️";
-                    } else {
-                        winMsg.innerText = data.winner === mySymbol ? "You won my heart 💕" : "Better luck next time 💖";
-                        playSfx('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3');
-                    }
-                    winOverlay.classList.remove('hidden');
+                    document.getElementById('win-message').innerText = data.winner === 'draw' ? "It's a Draw! ❤️" : (data.winner === mySymbol ? "You won! 💕" : "Partner Won! 💖");
+                    document.getElementById('win-overlay').classList.remove('hidden');
                 }
                 loadingScreen.classList.add('hidden');
             });
         }
 
-        // Cell Clicks
         cells.forEach(cell => {
             cell.addEventListener('click', async () => {
                 const idx = cell.dataset.index;
                 if (!isMyTurn || cell.innerText !== "" || !gameActive) return;
 
-                playSfx('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
-                
                 const roomSnap = await get(ref(db, `rooms/${roomId}`));
-                const currentBoard = roomSnap.val().board;
-                currentBoard[idx] = mySymbol;
+                const board = roomSnap.val().board;
+                board[idx] = mySymbol;
 
-                const winner = calculateWinner(currentBoard);
-                const isDraw = !currentBoard.includes("") && !winner;
+                const winPatterns = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+                let winner = null;
+                for (let p of winPatterns) {
+                    if (board[p[0]] && board[p[0]] === board[p[1]] && board[p[0]] === board[p[2]]) winner = board[p[0]];
+                }
+                const isDraw = !board.includes("") && !winner;
 
-                const updates = {};
-                updates[`rooms/${roomId}/board`] = currentBoard;
-                updates[`rooms/${roomId}/turn`] = mySymbol === '❤️' ? '😘' : '❤️';
-                if (winner) updates[`rooms/${roomId}/winner`] = winner;
-                if (isDraw) updates[`rooms/${roomId}/winner`] = 'draw';
-
-                update(ref(db), updates);
+                await update(ref(db, `rooms/${roomId}`), {
+                    board: board,
+                    turn: mySymbol === '❤️' ? '😘' : '❤️',
+                    winner: winner || (isDraw ? 'draw' : "")
+                });
             });
         });
 
-        function calculateWinner(board) {
-            for (let p of winPatterns) {
-                const [a, b, c] = p;
-                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                    return board[a];
-                }
-            }
-            return null;
-        }
-
         document.getElementById('reset-btn').addEventListener('click', () => {
-            set(ref(db, `rooms/${roomId}/board`), Array(9).fill(""));
-            set(ref(db, `rooms/${roomId}/winner`), "");
-            set(ref(db, `rooms/${roomId}/turn`), "❤️");
+            update(ref(db, `rooms/${roomId}`), { board: Array(9).fill(""), winner: "", turn: "❤️" });
         });
 
-        createBalloons();
+        // Simple Balloon Logic
+        setInterval(() => {
+            const b = document.createElement('div');
+            b.className = 'balloon';
+            b.style.left = Math.random() * 90 + 'vw';
+            b.style.background = '#ff4d6d';
+            b.style.width = b.style.height = '60px';
+            b.style.animationDuration = '8s';
+            b.innerText = "❤️";
+            document.getElementById('balloon-container').appendChild(b);
+            setTimeout(() => b.remove(), 8000);
+        }, 2000);
     </script>
 </body>
 </html>
