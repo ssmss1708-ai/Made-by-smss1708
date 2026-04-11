@@ -20,7 +20,15 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        .top-credit { position: fixed; top: 15px; font-size: 0.8rem; color: var(--secondary); z-index: 1000; }
+        /* Top Credit Chatak Style */
+        .top-credit { 
+            position: fixed; top: 0; left: 0; width: 100%; 
+            font-size: 1.1rem; color: #fff; z-index: 1000; 
+            background: linear-gradient(90deg, #ff4d6d, #ff00ff, #ff4d6d);
+            padding: 8px; font-weight: bold; text-align: center;
+            text-shadow: 0 0 10px white; animation: glow-text 2s infinite linear;
+        }
+        @keyframes glow-text { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
         .background-balloons { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .balloon {
@@ -35,59 +43,66 @@
             100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
         }
 
-        .container { z-index: 10; width: 90%; max-width: 400px; text-align: center; }
-        h1 { color: var(--primary); text-shadow: var(--glow); margin-bottom: 20px; font-size: 2.2rem; }
+        .container { z-index: 10; width: 95%; max-width: 400px; text-align: center; margin-top: 40px; }
+        h1 { color: var(--primary); text-shadow: var(--glow); margin-bottom: 15px; font-size: 2rem; }
 
         .card {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            padding: 25px; border-radius: 25px; border: 1px solid rgba(255, 77, 109, 0.3);
+            padding: 20px; border-radius: 25px; border: 1px solid rgba(255, 77, 109, 0.3);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
         input {
-            width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 12px;
+            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px;
             border: 1px solid rgba(255, 77, 109, 0.3); background: rgba(255,255,255,0.1);
             color: white; text-align: center; outline: none;
         }
 
         button {
-            background: var(--primary); color: white; border: none; padding: 14px;
+            background: var(--primary); color: white; border: none; padding: 12px;
             border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s;
         }
 
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 25px 0; }
+        /* Game Board */
+        .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
         .cell {
             aspect-ratio: 1; background: rgba(255,255,255,0.07); border-radius: 15px;
             display: flex; justify-content: center; align-items: center;
-            font-size: 2.5rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+            font-size: 2rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
         }
         .cell:hover { background: rgba(255, 77, 109, 0.15); transform: scale(1.05); }
 
-        .status-bar { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--secondary); font-weight: bold; }
+        .status-bar { display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--secondary); font-size: 0.9rem; font-weight: bold; }
+
+        /* Gift Buttons */
+        .gift-bar { display: flex; justify-content: space-around; margin: 10px 0; gap: 5px; }
+        .gift-btn { background: rgba(255,255,255,0.1); font-size: 1.5rem; padding: 5px; border-radius: 10px; width: auto; border: 1px solid var(--secondary); }
+
+        /* Chat System */
+        .chat-box { height: 100px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 10px; margin: 10px 0; font-size: 0.85rem; text-align: left; }
+        .chat-msg { margin-bottom: 5px; padding: 4px 8px; border-radius: 5px; width: fit-content; max-width: 80%; }
+        .msg-me { background: linear-gradient(to right, #ff4d6d, #ff758c); color: white; align-self: flex-end; margin-left: auto; }
+        .msg-them { background: linear-gradient(to right, #4dabf7, #228be6); color: white; }
+
+        /* Music Menu */
+        .music-menu { position: fixed; bottom: 90px; right: 20px; background: rgba(0,0,0,0.9); padding: 15px; border-radius: 15px; display: none; flex-direction: column; gap: 8px; border: 1px solid var(--primary); }
 
         /* Floating Buttons */
-        .controls { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 40px; z-index: 1000; }
-        .fab {
-            width: 55px; height: 55px; border-radius: 50%; border: none;
-            color: white; cursor: pointer; font-size: 22px; box-shadow: var(--glow); transition: 0.3s;
-        }
+        .controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 1000; }
+        .fab { width: 50px; height: 50px; border-radius: 50%; border: none; color: white; cursor: pointer; font-size: 20px; box-shadow: var(--glow); transition: 0.3s; }
         .btn-music { background: var(--primary); }
         .btn-mic { background: #4dabf7; }
         .btn-mic.active { background: #ff922b; animation: pulse 1s infinite; }
 
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0px rgba(255,146,43,0.7); } 100% { box-shadow: 0 0 0 15px rgba(255,146,43,0); } }
+        /* Gift Animation Layer */
+        #gift-layer { position: fixed; inset: 0; pointer-events: none; z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        .big-gift { font-size: 150px; animation: gift-pop 1.5s ease-out forwards; opacity: 0; }
+        @keyframes gift-pop { 0% { transform: scale(0); opacity: 1; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1) translateY(-200px); opacity: 0; } }
 
         .overlay { position: fixed; inset: 0; background: rgba(10, 5, 6, 0.95); z-index: 100; display: flex; justify-content: center; align-items: center; flex-direction: column; }
         .hidden { display: none !important; }
 
-        /* Result Popup */
-        #result-overlay {
-            background: rgba(0,0,0,0.85);
-            position: absolute; inset: 0; border-radius: 25px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 50;
-        }
-        #result-text { font-size: 1.5rem; margin-bottom: 20px; color: var(--primary); font-weight: bold; }
+        #result-overlay { position: absolute; inset: 0; border-radius: 25px; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; }
     </style>
 </head>
 <body>
@@ -99,6 +114,7 @@
     </div>
 
     <div class="background-balloons" id="balloon-container"></div>
+    <div id="gift-layer"></div>
 
     <div class="container">
         <h1>Realtime Love ❤️</h1>
@@ -119,26 +135,49 @@
                 <div id="display-room">Room: -</div>
                 <div id="turn-indicator">Connecting...</div>
             </div>
+
             <div class="board" id="board">
                 <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
                 <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
                 <div class="cell" data-index="6"></div><div class="cell" data-index="7"></div><div class="cell" data-index="8"></div>
             </div>
-            <button id="reset-btn" style="background:transparent; border:1px solid var(--primary)">Manual Reset</button>
+
+            <div class="gift-bar">
+                <button class="gift-btn" onclick="sendGift('❤️')">❤️</button>
+                <button class="gift-btn" onclick="sendGift('🌹')">🌹</button>
+                <button class="gift-btn" onclick="sendGift('😘')">😘</button>
+                <button class="gift-btn" onclick="sendGift('🍫')">🍫</button>
+            </div>
+
+            <div class="chat-box" id="chat-box"></div>
+            <div style="display:flex; gap:5px;">
+                <input type="text" id="chat-input" placeholder="Type message..." style="margin-bottom:0; padding:8px;">
+                <button id="send-chat" style="width:60px; padding:8px;">🚀</button>
+            </div>
+            
+            <button id="reset-btn" style="background:transparent; border:1px solid var(--primary); margin-top:10px; font-size:0.8rem;">Manual Reset</button>
         </div>
+    </div>
+
+    <div class="music-menu" id="music-menu">
+        <button onclick="playSong('love.mp3')">🎵 Love Theme</button>
+        <button onclick="playSong('song2.mp3')">🎵 Romantic</button>
+        <button onclick="playSong('song3.mp3')">🎵 Sad Mashup</button>
+        <button onclick="playSong('song4.mp3')">🎵 Lo-fi Beat</button>
+        <button onclick="stopSong()" style="background:#444">⏹️ Stop</button>
     </div>
 
     <div class="controls">
         <button id="mic-btn" class="fab btn-mic">🎤</button>
-        <button id="music-btn" class="fab btn-music">🎵</button>
+        <button id="music-toggle" class="fab btn-music">🎵</button>
     </div>
 
-    <audio id="bg-music" src="love.mp3" loop></audio>
+    <audio id="bg-music" loop></audio>
     <div id="remote-audio-container"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue, update, get, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCB-631vxXfLP-Cnnc3jTf7zz_kha8g8qk",
@@ -153,23 +192,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
-        let roomId, mySymbol, isMyTurn = false, gameActive = true;
+        let roomId, myName, mySymbol, isMyTurn = false, gameActive = true;
         let peer, localStream;
 
         const micBtn = document.getElementById('mic-btn');
-        const musicBtn = document.getElementById('music-btn');
         const bgMusic = document.getElementById('bg-music');
         const resultOverlay = document.getElementById('result-overlay');
         const resultText = document.getElementById('result-text');
-
-        // VOICE CONFIG (Noise Reduction)
-        const voiceConstraints = {
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                autoGainControl: true
-            }
-        };
 
         // JOIN LOGIC
         document.getElementById('join-btn').addEventListener('click', async () => {
@@ -178,6 +207,7 @@
             if (!rId || !pName) return alert("Details bhariye!");
 
             roomId = rId;
+            myName = pName;
             document.getElementById('loading-screen').classList.remove('hidden');
 
             initVoiceChat(pName);
@@ -199,7 +229,6 @@
             startSync();
         });
 
-        // TURN & GAME SYNC
         function startSync() {
             onValue(ref(db, `rooms/${roomId}`), (snapshot) => {
                 const data = snapshot.val();
@@ -216,21 +245,38 @@
                 if (data.winner) {
                     gameActive = false;
                     resultOverlay.classList.remove('hidden');
-                    if(data.winner === 'draw') {
-                        resultText.innerText = "It's a Draw! 🤝";
-                    } else {
-                        resultText.innerText = data.winner === mySymbol ? "You Won! 💕" : "Partner Won! 💖";
-                    }
+                    resultText.innerText = data.winner === 'draw' ? "It's a Draw! 🤝" : (data.winner === mySymbol ? "You Won! 💕" : "Partner Won! 💖");
                 } else {
-                    // Game is ongoing or reset
                     gameActive = true;
                     resultOverlay.classList.add('hidden');
                 }
                 document.getElementById('loading-screen').classList.add('hidden');
             });
+
+            // Gift Listener
+            onValue(ref(db, `rooms/${roomId}/gift`), (snapshot) => {
+                const gift = snapshot.val();
+                if(gift && gift.sender !== myName) {
+                    showGiftAnimation(gift.emoji);
+                }
+            });
+
+            // Chat Listener
+            onValue(ref(db, `rooms/${roomId}/chats`), (snapshot) => {
+                const chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML = '';
+                snapshot.forEach(child => {
+                    const msg = child.val();
+                    const div = document.createElement('div');
+                    div.className = `chat-msg ${msg.sender === myName ? 'msg-me' : 'msg-them'}`;
+                    div.innerText = msg.text;
+                    chatBox.appendChild(div);
+                });
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
         }
 
-        // CLICK LOGIC
+        // Tic Tac Toe Click
         document.querySelectorAll('.cell').forEach(cell => {
             cell.addEventListener('click', async () => {
                 const idx = cell.dataset.index;
@@ -255,38 +301,77 @@
             });
         });
 
-        // NEXT GAME BUTTON
+        // Chat Send
+        document.getElementById('send-chat').addEventListener('click', () => {
+            const input = document.getElementById('chat-input');
+            if(!input.value.trim()) return;
+            push(ref(db, `rooms/${roomId}/chats`), { sender: myName, text: input.value });
+            input.value = '';
+        });
+
+        // Global functions for gifts and music
+        window.sendGift = (emoji) => {
+            update(ref(db, `rooms/${roomId}/gift`), { sender: myName, emoji: emoji, time: Date.now() });
+            showGiftAnimation(emoji);
+        };
+
+        function showGiftAnimation(emoji) {
+            const layer = document.getElementById('gift-layer');
+            const el = document.createElement('div');
+            el.className = 'big-gift';
+            el.innerText = emoji;
+            layer.appendChild(el);
+            setTimeout(() => el.remove(), 1500);
+        }
+
+        window.playSong = (src) => {
+            bgMusic.src = src;
+            bgMusic.play();
+            document.getElementById('music-menu').style.display = 'none';
+        };
+
+        window.stopSong = () => {
+            bgMusic.pause();
+            document.getElementById('music-menu').style.display = 'none';
+        };
+
+        document.getElementById('music-toggle').addEventListener('click', () => {
+            const menu = document.getElementById('music-menu');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Other core functions
         document.getElementById('next-game-btn').addEventListener('click', () => {
             update(ref(db, `rooms/${roomId}`), { board: Array(9).fill(""), winner: "", turn: "❤️" });
         });
 
-        // VOICE CHAT (MIC) LOGIC
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            update(ref(db, `rooms/${roomId}`), { board: Array(9).fill(""), winner: "", turn: "❤️" });
+        });
+
         async function initVoiceChat(pName) {
             peer = new Peer(roomId + "_" + pName);
-
             peer.on('call', (call) => {
-                navigator.mediaDevices.getUserMedia(voiceConstraints).then((stream) => {
+                navigator.mediaDevices.getUserMedia({audio:true}).then((stream) => {
                     call.answer(stream);
-                    call.on('stream', (remoteStream) => playRemoteStream(remoteStream));
+                    call.on('stream', (remoteStream) => {
+                        let audio = document.getElementById('remote-audio-el') || document.createElement('audio');
+                        audio.id = 'remote-audio-el';
+                        audio.srcObject = remoteStream;
+                        audio.play();
+                        document.getElementById('remote-audio-container').appendChild(audio);
+                    });
                 });
             });
 
             micBtn.addEventListener('click', async () => {
                 if (!localStream) {
-                    try {
-                        localStream = await navigator.mediaDevices.getUserMedia(voiceConstraints);
-                        micBtn.classList.add('active');
-                        const otherPlayer = mySymbol === '❤️' ? 'p2' : 'p1';
-                        const roomSnap = await get(ref(db, `rooms/${roomId}`));
-                        const otherName = roomSnap.val()[otherPlayer + "_peer"];
-                        
-                        if (otherName) {
-                            const call = peer.call(roomId + "_" + otherName, localStream);
-                            call.on('stream', (remoteStream) => playRemoteStream(remoteStream));
-                        }
-                    } catch (err) {
-                        alert("Mic access denied!");
-                    }
+                    localStream = await navigator.mediaDevices.getUserMedia({audio:true});
+                    micBtn.classList.add('active');
+                    const otherPlayer = mySymbol === '❤️' ? 'p2' : 'p1';
+                    const roomSnap = await get(ref(db, `rooms/${roomId}`));
+                    const otherName = roomSnap.val()[otherPlayer + "_peer"];
+                    if (otherName) peer.call(roomId + "_" + otherName, localStream);
                 } else {
                     const enabled = localStream.getAudioTracks()[0].enabled;
                     localStream.getAudioTracks()[0].enabled = !enabled;
@@ -294,27 +379,6 @@
                 }
             });
         }
-
-        function playRemoteStream(stream) {
-            let audio = document.getElementById('remote-audio-el');
-            if(!audio) {
-                audio = document.createElement('audio');
-                audio.id = 'remote-audio-el';
-                document.getElementById('remote-audio-container').appendChild(audio);
-            }
-            audio.srcObject = stream;
-            audio.play();
-        }
-
-        // UI Extras
-        musicBtn.addEventListener('click', () => {
-            if (bgMusic.paused) { bgMusic.play(); musicBtn.innerText = '⏸️'; }
-            else { bgMusic.pause(); musicBtn.innerText = '🎵'; }
-        });
-
-        document.getElementById('reset-btn').addEventListener('click', () => {
-            update(ref(db, `rooms/${roomId}`), { board: Array(9).fill(""), winner: "", turn: "❤️" });
-        });
 
         // Balloons
         setInterval(() => {
