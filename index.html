@@ -20,7 +20,6 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* Top Credit */
         .top-credit { 
             position: fixed; top: 0; left: 0; width: 100%; 
             font-size: 1.1rem; color: #fff; z-index: 1000; 
@@ -30,39 +29,20 @@
         }
         @keyframes glow-text { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
-        /* Charo Kone ke Music Icons */
-        .corner-music {
-            position: fixed; width: 50px; height: 50px;
-            background: var(--primary); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; cursor: pointer; z-index: 1500;
-            box-shadow: var(--glow); border: 2px solid white;
-            animation: pulse-music 2s infinite;
+        /* Corner Music Icons */
+        .music-corner { 
+            position: fixed; width: 45px; height: 45px; background: var(--primary); 
+            color: white; border-radius: 50%; display: flex; justify-content: center; 
+            align-items: center; cursor: pointer; z-index: 1500; font-size: 20px; 
+            box-shadow: var(--glow); animation: pulse 2s infinite;
         }
-        .m-tl { top: 60px; left: 20px; }
-        .m-tr { top: 60px; right: 20px; }
-        .m-bl { bottom: 20px; left: 20px; }
-        .m-br { bottom: 20px; right: 20px; }
+        .m-tl { top: 60px; left: 15px; }
+        .m-tr { top: 60px; right: 15px; }
+        .m-bl { bottom: 20px; left: 15px; }
+        .m-br { bottom: 20px; right: 15px; }
 
-        @keyframes pulse-music {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 77, 109, 0); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* Gift Blast Animation */
-        #gift-layer { position: fixed; inset: 0; pointer-events: none; z-index: 2000; display: flex; justify-content: center; align-items: center; }
-        .blast {
-            font-size: 120px; position: absolute;
-            animation: gift-blast-anim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        @keyframes gift-blast-anim {
-            0% { transform: scale(0) rotate(0deg); opacity: 0; }
-            50% { transform: scale(2.5) rotate(20deg); opacity: 1; filter: drop-shadow(0 0 20px gold); }
-            100% { transform: scale(3.5) rotate(-20deg); opacity: 0; filter: blur(15px); }
-        }
-
-        /* Main Game Layout */
         .container { z-index: 10; width: 95%; max-width: 400px; text-align: center; margin-top: 40px; }
         .card {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
@@ -70,44 +50,86 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
+        input {
+            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px;
+            border: 1px solid rgba(255, 77, 109, 0.3); background: rgba(255,255,255,0.1);
+            color: white; text-align: center; outline: none;
+        }
+
+        button {
+            background: var(--primary); color: white; border: none; padding: 12px;
+            border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s;
+        }
+
         .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
         .cell {
             aspect-ratio: 1; background: rgba(255,255,255,0.07); border-radius: 15px;
             display: flex; justify-content: center; align-items: center;
-            font-size: 2rem; cursor: pointer; transition: 0.3s;
+            font-size: 2.5rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
         }
-        
+
         .gift-bar { display: flex; justify-content: space-around; margin: 10px 0; gap: 5px; }
-        .gift-btn { background: rgba(255,255,255,0.1); font-size: 1.5rem; padding: 8px; border-radius: 12px; border: 1px solid var(--secondary); flex: 1; cursor: pointer; }
+        .gift-btn { background: rgba(255,255,255,0.1); font-size: 1.5rem; padding: 5px; border-radius: 10px; width: auto; border: 1px solid var(--secondary); }
 
-        .chat-box { height: 80px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 10px; margin: 10px 0; font-size: 0.8rem; text-align: left; }
+        .chat-box { height: 100px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 10px; margin: 10px 0; font-size: 0.85rem; text-align: left; }
+        .chat-msg { margin-bottom: 5px; padding: 4px 8px; border-radius: 5px; width: fit-content; max-width: 80%; }
+        .msg-me { background: #ff4d6d; color: white; align-self: flex-end; margin-left: auto; }
+        .msg-them { background: #4dabf7; color: white; }
+
+        .music-menu { 
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            background: rgba(0,0,0,0.95); padding: 20px; border-radius: 15px; 
+            display: none; flex-direction: column; gap: 10px; border: 2px solid var(--primary); z-index: 3000; 
+        }
+
+        #gift-layer { position: fixed; inset: 0; pointer-events: none; z-index: 5000; display: flex; justify-content: center; align-items: center; }
+        .gift-blast { font-size: 180px; animation: blast 1.2s ease-out forwards; }
+        @keyframes blast { 
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.5) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 30px #ff4d6d); }
+            100% { transform: scale(2.5) rotate(-15deg); opacity: 0; }
+        }
+
+        .mic-fab { position: fixed; bottom: 80px; width: 55px; height: 55px; border-radius: 50%; background: #4dabf7; border: none; color: white; cursor: pointer; font-size: 22px; box-shadow: var(--glow); z-index: 1000; }
+        .mic-fab.active { background: #ff922b; animation: pulse 1s infinite; }
+
+        .overlay { position: fixed; inset: 0; background: rgba(10, 5, 6, 0.95); z-index: 100; display: flex; justify-content: center; align-items: center; flex-direction: column; }
         .hidden { display: none !important; }
-        input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: white; }
-        button#join-btn { background: var(--primary); color: white; padding: 12px; width: 100%; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
-
+        #result-overlay { position: absolute; inset: 0; border-radius: 25px; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; }
     </style>
 </head>
 <body>
 
     <div class="top-credit">Made by - @smss1708</div>
 
-    <div class="corner-music m-tl" onclick="playSong('love.mp3')">🎵</div>
-    <div class="corner-music m-tr" onclick="playSong('tere-liye.mp3')">🎶</div>
-    <div class="corner-music m-bl" onclick="playSong('sad.mp3')">🎻</div>
-    <div class="corner-music m-br" onclick="playSong('love1.mp3')">💝</div>
+    <div class="music-corner m-tl" onclick="toggleMenu()">🎵</div>
+    <div class="music-corner m-tr" onclick="toggleMenu()">🎵</div>
+    <div class="music-corner m-bl" onclick="toggleMenu()">🎵</div>
+    <div class="music-corner m-br" onclick="toggleMenu()">🎵</div>
 
+    <div id="loading-screen" class="overlay hidden"><p>Connecting...</p></div>
     <div id="gift-layer"></div>
 
     <div class="container">
+        <h1 style="color: var(--primary); text-shadow: var(--glow); margin-bottom: 10px;">Realtime Love ❤️</h1>
+        
         <div id="setup-section" class="card">
-            <h1>Love Cloud ❤️</h1>
             <input type="text" id="room-id" placeholder="Room Code">
             <input type="text" id="player-name" placeholder="Your Name">
-            <button id="join-btn">Join Realtime</button>
+            <button id="join-btn">Start Love Session</button>
         </div>
 
-        <div id="game-section" class="card hidden">
-            <div id="turn-indicator">Connecting...</div>
+        <div id="game-section" class="card hidden" style="position: relative;">
+            <div id="result-overlay" class="hidden">
+                <div id="result-text" style="font-size: 1.5rem; margin-bottom: 10px;">Winner!</div>
+                <button id="next-game-btn" style="width: 80%;">Play Again 🎮</button>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--secondary); margin-bottom: 10px;">
+                <div id="display-room">Room: -</div>
+                <div id="turn-indicator">Waiting...</div>
+            </div>
+
             <div class="board" id="board">
                 <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
                 <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
@@ -117,19 +139,31 @@
             <div class="gift-bar">
                 <button class="gift-btn" onclick="sendGift('❤️')">❤️</button>
                 <button class="gift-btn" onclick="sendGift('🌹')">🌹</button>
-                <button class="gift-btn" onclick="sendGift('🔥')">🔥</button>
+                <button class="gift-btn" onclick="sendGift('😘')">😘</button>
                 <button class="gift-btn" onclick="sendGift('🍫')">🍫</button>
             </div>
 
             <div class="chat-box" id="chat-box"></div>
             <div style="display:flex; gap:5px;">
-                <input type="text" id="chat-input" placeholder="Message..." style="margin:0;">
-                <button id="send-chat" style="background:var(--primary); border:none; border-radius:10px; width:50px;">🚀</button>
+                <input type="text" id="chat-input" placeholder="Say something..." style="margin:0; flex:1;">
+                <button id="send-chat" style="width:50px;">🚀</button>
             </div>
         </div>
     </div>
 
+    <div class="music-menu" id="music-menu">
+        <button onclick="playSong('love.mp3')">🎵 Love</button>
+        <button onclick="playSong('love1.mp3')">🎵 Love 1</button>
+        <button onclick="playSong('sad.mp3')">🎵 Sad</button>
+        <button onclick="playSong('tere-liye.mp3')">🎵 Tere Liye</button>
+        <button onclick="stopSong()" style="background:#444; margin-top:5px;">⏹️ Stop</button>
+        <button onclick="toggleMenu()" style="background:none; border:1px solid #fff; margin-top:5px;">Close</button>
+    </div>
+
+    <button id="mic-btn" class="mic-fab">🎤</button>
+
     <audio id="bg-music" loop></audio>
+    <div id="remote-audio-container"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -139,105 +173,164 @@
             apiKey: "AIzaSyCB-631vxXfLP-Cnnc3jTf7zz_kha8g8qk",
             authDomain: "tic-tac-9253e.firebaseapp.com",
             databaseURL: "https://tic-tac-9253e-default-rtdb.firebaseio.com",
-            projectId: "tic-tac-9253e"
+            projectId: "tic-tac-9253e",
+            storageBucket: "tic-tac-9253e.firebasestorage.app",
+            messagingSenderId: "354573092432",
+            appId: "1:354573092432:web:d8f8672b220a80b6fe3355"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
-        let roomId, myName, mySymbol, isMyTurn = false;
+        let roomId, myName, mySymbol, isMyTurn = false, gameActive = true, peer, localStream;
+
+        const micBtn = document.getElementById('mic-btn');
         const bgMusic = document.getElementById('bg-music');
 
         document.getElementById('join-btn').addEventListener('click', async () => {
-            roomId = document.getElementById('room-id').value.trim();
-            myName = document.getElementById('player-name').value.trim();
-            if (!roomId || !myName) return alert("Fill all fields");
+            const rId = document.getElementById('room-id').value.trim();
+            const pName = document.getElementById('player-name').value.trim();
+            if (!rId || !pName) return alert("Fill all details");
+
+            roomId = rId; myName = pName;
+            document.getElementById('loading-screen').classList.remove('hidden');
+
+            setupVoice(pName);
 
             const roomRef = ref(db, `rooms/${roomId}`);
             const snapshot = await get(roomRef);
 
             if (!snapshot.exists()) {
                 mySymbol = '💕';
-                await set(roomRef, { board: Array(9).fill(""), turn: '💕', p1: myName });
+                await set(roomRef, { board: Array(9).fill(""), turn: '💕', winner: "", p1: pName, p1_peer: pName });
             } else {
                 mySymbol = '💖';
-                await update(roomRef, { p2: myName });
+                await update(roomRef, { p2: pName, p2_peer: pName });
             }
 
+            document.getElementById('display-room').innerText = "Room: " + roomId;
             document.getElementById('setup-section').classList.add('hidden');
             document.getElementById('game-section').classList.remove('hidden');
-            startSync();
+            sync();
         });
 
-        function startSync() {
+        function sync() {
             onValue(ref(db, `rooms/${roomId}`), (snap) => {
                 const data = snap.val();
                 if (!data) return;
-                data.board.forEach((val, i) => document.querySelector(`[data-index="${i}"]`).innerText = val);
-                isMyTurn = data.turn === mySymbol;
+                data.board.forEach((val, i) => document.querySelector(`.cell[data-index="${i}"]`).innerText = val);
+                isMyTurn = (data.turn === mySymbol);
                 document.getElementById('turn-indicator').innerText = isMyTurn ? "Your Turn!" : "Partner's Turn...";
+                
+                if (data.winner) {
+                    gameActive = false;
+                    document.getElementById('result-overlay').classList.remove('hidden');
+                    document.getElementById('result-text').innerText = data.winner === 'draw' ? "Draw! 🤝" : (data.winner === mySymbol ? "You Won! 💕" : "Partner Won! 💖");
+                } else {
+                    gameActive = true;
+                    document.getElementById('result-overlay').classList.add('hidden');
+                }
+                document.getElementById('loading-screen').classList.add('hidden');
             });
 
-            // Sync Gift Blast
-            onValue(ref(db, `rooms/${roomId}/blast`), (snap) => {
-                const blast = snap.val();
-                if (blast && blast.sender !== myName) {
-                    showBlastEffect(blast.emoji);
+            onValue(ref(db, `rooms/${roomId}/gift`), (snap) => {
+                const gift = snap.val();
+                if(gift && gift.sender !== myName) showBlast(gift.emoji);
+            });
+
+            onValue(ref(db, `rooms/${roomId}/chats`), (snap) => {
+                const box = document.getElementById('chat-box');
+                box.innerHTML = '';
+                snap.forEach(c => {
+                    const m = c.val();
+                    box.innerHTML += `<div class="chat-msg ${m.sender === myName ? 'msg-me' : 'msg-them'}">${m.text}</div>`;
+                });
+                box.scrollTop = box.scrollHeight;
+            });
+        }
+
+        document.querySelectorAll('.cell').forEach(c => {
+            c.addEventListener('click', async () => {
+                if (!isMyTurn || c.innerText !== "" || !gameActive) return;
+                const roomSnap = await get(ref(db, `rooms/${roomId}`));
+                const board = roomSnap.val().board;
+                board[c.dataset.index] = mySymbol;
+
+                const winP = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+                let winner = null;
+                for (let p of winP) if (board[p[0]] && board[p[0]] === board[p[1]] && board[p[0]] === board[p[2]]) winner = board[p[0]];
+                const isDraw = !board.includes("") && !winner;
+
+                await update(ref(db, `rooms/${roomId}`), {
+                    board: board, turn: mySymbol === '💕' ? '💖' : '💕',
+                    winner: winner || (isDraw ? 'draw' : "")
+                });
+            });
+        });
+
+        document.getElementById('send-chat').addEventListener('click', () => {
+            const input = document.getElementById('chat-input');
+            if(input.value.trim()) push(ref(db, `rooms/${roomId}/chats`), { sender: myName, text: input.value });
+            input.value = '';
+        });
+
+        window.sendGift = (emoji) => {
+            update(ref(db, `rooms/${roomId}/gift`), { sender: myName, emoji: emoji, time: Date.now() });
+            showBlast(emoji);
+        };
+
+        function showBlast(emoji) {
+            const el = document.createElement('div');
+            el.className = 'gift-blast';
+            el.innerText = emoji;
+            document.getElementById('gift-layer').appendChild(el);
+            setTimeout(() => el.remove(), 1200);
+        }
+
+        window.toggleMenu = () => {
+            const m = document.getElementById('music-menu');
+            m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+        };
+
+        window.playSong = (src) => {
+            bgMusic.src = src;
+            bgMusic.play();
+            toggleMenu();
+        };
+
+        window.stopSong = () => { bgMusic.pause(); toggleMenu(); };
+
+        document.getElementById('next-game-btn').addEventListener('click', () => {
+            update(ref(db, `rooms/${roomId}`), { board: Array(9).fill(""), winner: "", turn: "💕" });
+        });
+
+        async function setupVoice(pName) {
+            peer = new Peer(roomId + "_" + pName);
+            peer.on('call', (call) => {
+                navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }).then((s) => {
+                    call.answer(s);
+                    call.on('stream', (rs) => {
+                        let a = document.getElementById('remote-audio-el') || document.createElement('audio');
+                        a.id = 'remote-audio-el'; a.srcObject = rs; a.play();
+                        document.getElementById('remote-audio-container').appendChild(a);
+                    });
+                });
+            });
+
+            micBtn.addEventListener('click', async () => {
+                if (!localStream) {
+                    localStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+                    micBtn.classList.add('active');
+                    const other = mySymbol === '💕' ? 'p2' : 'p1';
+                    const snap = await get(ref(db, `rooms/${roomId}`));
+                    const target = snap.val()[other + "_peer"];
+                    if (target) peer.call(roomId + "_" + target, localStream);
+                } else {
+                    const en = localStream.getAudioTracks()[0].enabled;
+                    localStream.getAudioTracks()[0].enabled = !en;
+                    micBtn.classList.toggle('active', !en);
                 }
             });
         }
-
-        // Tic Tac Toe Move
-        document.querySelectorAll('.cell').forEach(cell => {
-            cell.addEventListener('click', async () => {
-                const idx = cell.dataset.index;
-                if (!isMyTurn || cell.innerText !== "") return;
-                const snap = await get(ref(db, `rooms/${roomId}`));
-                const board = snap.val().board;
-                board[idx] = mySymbol;
-                update(ref(db, `rooms/${roomId}`), { board, turn: mySymbol === '💖' ? '💕' : '💖' });
-            });
-        });
-
-        // Gift & Blast Logic
-        window.sendGift = (emoji) => {
-            set(ref(db, `rooms/${roomId}/blast`), { sender: myName, emoji: emoji, time: Date.now() });
-            showBlastEffect(emoji);
-        };
-
-        function showBlastEffect(emoji) {
-            const layer = document.getElementById('gift-layer');
-            const el = document.createElement('div');
-            el.className = 'blast';
-            el.innerText = emoji;
-            layer.appendChild(el);
-            setTimeout(() => el.remove(), 800);
-        }
-
-        // Music Control
-        window.playSong = (file) => {
-            bgMusic.src = file;
-            bgMusic.play().catch(() => alert("Click once on screen then play!"));
-        };
-
-        // Chat Logic
-        document.getElementById('send-chat').addEventListener('click', () => {
-            const inp = document.getElementById('chat-input');
-            if (inp.value) {
-                push(ref(db, `rooms/${roomId}/chats`), { sender: myName, text: inp.value });
-                inp.value = '';
-            }
-        });
-
-        onValue(ref(db, `rooms/${roomId}/chats`), (snap) => {
-            const box = document.getElementById('chat-box');
-            box.innerHTML = '';
-            snap.forEach(c => {
-                const m = c.val();
-                box.innerHTML += `<div><b>${m.sender}:</b> ${m.text}</div>`;
-            });
-            box.scrollTop = box.scrollHeight;
-        });
     </script>
 </body>
 </html>
