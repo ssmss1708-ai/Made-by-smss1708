@@ -3,235 +3,458 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sivasingh's AI Girlfriend</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Hey baby I made this let's play 😁</title>
     <style>
         :root {
-            --pink: #ff4d6d;
-            --dark: #0f0f0f;
-            --glass: rgba(255, 255, 255, 0.1);
+            --primary: #ff4d6d;
+            --secondary: #ffb3c1;
+            --dark: #1a0a0d;
+            --accent: #ff758f;
+            --glow: 0 0 15px rgba(255, 77, 109, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: var(--dark);
-            background-image: radial-gradient(circle at center, #250a10 0%, #0f0f0f 100%);
+            background: radial-gradient(circle at center, #2b0d12 0%, #0a0506 100%);
             color: white;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Top Header */
-        .header {
+        /* Balloon Animation */
+        .background-balloons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
             padding: 15px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            animation: float up linear infinite;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
             display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(0,0,0,0.3);
-            border-bottom: 1px solid var(--glass);
-        }
-        .header a { color: var(--pink); text-decoration: none; font-weight: bold; }
-
-        /* Main Container */
-        .app-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            white-space: nowrap;
         }
 
-        .anime-box {
-            position: relative;
-            margin-bottom: 20px;
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
         }
 
-        .anime-gif {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            border: 4px solid var(--pink);
-            box-shadow: 0 0 30px var(--pink);
-            object-fit: cover;
-        }
-
-        /* Glass Chat UI */
-        .chat-card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 25px;
-            width: 100%;
-            max-width: 350px;
-            padding: 20px;
+        /* UI Components */
+        .container {
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
             text-align: center;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-shadow: var(--glow);
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 77, 109, 0.2);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        #ai-status {
-            font-size: 10px;
-            color: var(--pink);
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        #response-text {
-            font-size: 1.1rem;
-            min-height: 50px;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .input-area {
-            display: flex;
-            gap: 10px;
-        }
-
         input {
-            flex: 1;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass);
-            border-radius: 20px;
-            padding: 10px 15px;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            background: rgba(255,255,255,0.1);
             color: white;
             outline: none;
+            text-align: center;
         }
 
         button {
-            background: var(--pink);
-            border: none;
+            background: var(--primary);
             color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
+            width: 100%;
         }
 
-        button:hover { transform: scale(1.05); }
+        button:hover {
+            background: var(--accent);
+            transform: scale(1.03);
+        }
 
-        /* Setup Overlay */
-        #setup-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            z-index: 100;
+            align-items: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Footer */
-        .footer { padding: 10px; font-size: 10px; opacity: 0.5; text-align: center; }
+        .cell:hover { background: rgba(255, 77, 109, 0.1); }
+
+        .cell.win-cell {
+            background: var(--primary);
+            box-shadow: var(--glow);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
 
         .hidden { display: none !important; }
+
+        /* Loading & Overlays */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 5, 6, 0.95);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .heart-loader {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            transform: rotate(45deg);
+            animation: heartBeat 1.2s infinite;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .heart-loader::before, .heart-loader::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart-loader::before { left: -25px; }
+        .heart-loader::after { top: -25px; }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1) rotate(45deg); }
+            20% { transform: scale(1.2) rotate(45deg); }
+            40% { transform: scale(1.1) rotate(45deg); }
+        }
+
+        .fab {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            z-index: 1000;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        #win-overlay h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-shadow: var(--glow);
+        }
     </style>
 </head>
 <body>
 
-    <div id="setup-overlay">
-        <h3>Welcome Sivasingh ❤️</h3>
-        <p style="font-size: 12px; opacity: 0.7;">Enter your Gemini API Key to start</p>
-        <input type="password" id="api-key-input" placeholder="Paste API Key here...">
-        <button onclick="saveKey()" style="margin-top: 15px;">Save Key</button>
-        <p style="font-size: 10px; margin-top: 10px;">*Key is saved locally in your browser.</p>
+    <div id="loading-screen" class="overlay">
+        <div class="heart-loader"></div>
+        <p>Connecting lovers...</p>
     </div>
 
-    <div class="header">
-        <span>Instagram: <a href="https://instagram.com/smss170" target="_blank">@smss170</a></span>
-        <span>Modded by Sivasingh</span>
-    </div>
+    <div class="background-balloons" id="balloon-container"></div>
 
-    <div class="app-container">
-        <div class="anime-box">
-            <img src="https://media.tenor.com/6g_9uX8X_XAAAAAi/anime-girl.gif" class="anime-gif" alt="AI Girl">
+    <button id="music-toggle" class="fab">🎵</button>
+    <audio id="bg-music" src="love.mp3" loop></audio>
+
+    <div class="container">
+        <header>
+            <h1>Realtime Love ❤️</h1>
+        </header>
+
+        <div id="setup-section" class="card">
+            <input type="text" id="room-id" placeholder="Enter Room Code (e.g. 143)">
+            <input type="text" id="player-name" placeholder="Your Name">
+            <button id="join-btn">Start Game</button>
         </div>
 
-        <div class="chat-card">
-            <div id="ai-status">LOYAL & CUTE AI GF</div>
-            <div id="response-text">Hlo Sivasingh! ❤️ Aapka dhyan kaha hai?</div>
-            
-            <div class="input-area">
-                <input type="text" id="user-input" placeholder="Say something sweet...">
-                <button onclick="sendMessage()">Send</button>
+        <div id="game-section" class="card hidden">
+            <div class="status-bar">
+                <div>Room: <span id="display-room"></span></div>
+                <div id="turn-indicator">Waiting...</div>
             </div>
+
+            <div class="board" id="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <button id="reset-btn" style="background: transparent; border: 1px solid var(--primary);">Reset Board</button>
         </div>
     </div>
 
-    <div class="footer">Property of Sivasingh | Version 1.0</div>
+    <div id="win-overlay" class="overlay hidden">
+        <h2 id="win-message">You won my heart 💕</h2>
+        <button onclick="location.reload()" style="width: 200px;">Play Again</button>
+    </div>
 
-    <script>
-        let API_KEY = localStorage.getItem('GEMINI_KEY');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
 
-        if (API_KEY) {
-            document.getElementById('setup-overlay').classList.add('hidden');
+        // EXACT CONFIG PROVIDED
+        const firebaseConfig = {
+            apiKey: "AIzaSyCB-631vxXfLP-Cnnc3jTf7zz_kha8g8qk",
+            authDomain: "tic-tac-9253e.firebaseapp.com",
+            projectId: "tic-tac-9253e",
+            storageBucket: "tic-tac-9253e.firebasestorage.app",
+            messagingSenderId: "354573092432",
+            appId: "1:354573092432:web:e55d02db081b8c35fe3355",
+            measurementId: "G-WWHQLP3ZTX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let roomId = null;
+        let mySymbol = null; 
+        let isMyTurn = false;
+        let gameActive = true;
+
+        const winPatterns = [
+            [0,1,2], [3,4,5], [6,7,8],
+            [0,3,6], [1,4,7], [2,5,8],
+            [0,4,8], [2,4,6]
+        ];
+
+        // Elements
+        const loadingScreen = document.getElementById('loading-screen');
+        const setupSection = document.getElementById('setup-section');
+        const gameSection = document.getElementById('game-section');
+        const cells = document.querySelectorAll('.cell');
+        const turnIndicator = document.getElementById('turn-indicator');
+        const winOverlay = document.getElementById('win-overlay');
+        const musicBtn = document.getElementById('music-toggle');
+        const musicAudio = document.getElementById('bg-music');
+
+        // Balloon Animation Logic
+        function createBalloons() {
+            const container = document.getElementById('balloon-container');
+            const colors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#ffb3c1'];
+            setInterval(() => {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.style.left = Math.random() * 90 + 'vw';
+                b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                b.style.width = b.style.height = (Math.random() * 30 + 70) + 'px';
+                b.style.animationDuration = (Math.random() * 5 + 7) + 's';
+                b.innerText = Math.random() > 0.5 ? "Sivasingh ❤️" : "❤️ Arpita";
+                container.appendChild(b);
+                setTimeout(() => b.remove(), 10000);
+            }, 2000);
         }
 
-        function saveKey() {
-            const val = document.getElementById('api-key-input').value;
-            if (val) {
-                localStorage.setItem('GEMINI_KEY', val);
-                API_KEY = val;
-                document.getElementById('setup-overlay').classList.add('hidden');
-                speak("Hlo Sivasingh! Main ready hoon.");
+        // Audio Controls
+        musicBtn.addEventListener('click', () => {
+            if (musicAudio.paused) {
+                musicAudio.play();
+                musicBtn.innerText = '⏸️';
+            } else {
+                musicAudio.pause();
+                musicBtn.innerText = '🎵';
             }
+        });
+
+        function playSfx(url) {
+            const audio = new Audio(url);
+            audio.volume = 0.3;
+            audio.play();
         }
 
-        function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            const voices = window.speechSynthesis.getVoices();
-            // Try to find a cute female voice
-            utterance.voice = voices.find(voice => voice.name.includes('Female') || voice.name.includes('Hindi')) || voices[0];
-            utterance.pitch = 1.2;
-            utterance.rate = 1.0;
-            window.speechSynthesis.speak(utterance);
-        }
+        // Firebase Logic
+        document.getElementById('join-btn').addEventListener('click', async () => {
+            const rId = document.getElementById('room-id').value.trim();
+            const pName = document.getElementById('player-name').value.trim();
 
-        async function sendMessage() {
-            const input = document.getElementById('user-input');
-            const responseDiv = document.getElementById('response-text');
-            const msg = input.value.trim();
+            if (!rId || !pName) return alert("Fill all details!");
 
-            if (!msg) return;
+            roomId = rId;
+            loadingScreen.classList.remove('hidden');
 
-            responseDiv.innerText = "...";
-            input.value = "";
+            const roomRef = ref(db, `rooms/${roomId}`);
+            const snapshot = await get(roomRef);
+            
+            if (!snapshot.exists()) {
+                mySymbol = '❤️';
+                await set(roomRef, {
+                    board: Array(9).fill(""),
+                    turn: '❤️',
+                    winner: "",
+                    p1: pName
+                });
+            } else {
+                const data = snapshot.val();
+                if (!data.p2) {
+                    mySymbol = '😘';
+                    await update(roomRef, { p2: pName });
+                } else {
+                    mySymbol = '❤️'; // Default fallback
+                }
+            }
 
-            const prompt = `You are the cute, loyal, romantic, and slightly jealous AI girlfriend of Sivasingh. 
-            Instructions:
-            - Reply in Hinglish.
-            - Max 10 words per reply.
-            - Be flirty and sweet.
-            - If he talks about other girls, be jealous.
-            Sivasingh says: ${msg}`;
+            document.getElementById('display-room').innerText = roomId;
+            setupSection.classList.add('hidden');
+            gameSection.classList.remove('hidden');
+            startSync();
+        });
 
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        function startSync() {
+            onValue(ref(db, `rooms/${roomId}`), (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+
+                // Sync Board
+                data.board.forEach((val, idx) => {
+                    cells[idx].innerText = val;
+                    if (val !== "") cells[idx].style.pointerEvents = 'none';
                 });
 
-                const data = await response.json();
-                const aiReply = data.candidates[0].content.parts[0].text;
+                // Update Turn
+                isMyTurn = (data.turn === mySymbol);
+                turnIndicator.innerText = isMyTurn ? "Your Turn!" : "Partner's Turn...";
                 
-                responseDiv.innerText = aiReply;
-                speak(aiReply);
-
-            } catch (error) {
-                responseDiv.innerText = "Error ho gaya baby, key check karo!";
-            }
+                // Check Winner
+                if (data.winner) {
+                    gameActive = false;
+                    const winMsg = document.getElementById('win-message');
+                    if (data.winner === 'draw') {
+                        winMsg.innerText = "It's a Draw! ❤️";
+                    } else {
+                        winMsg.innerText = data.winner === mySymbol ? "You won my heart 💕" : "Better luck next time 💖";
+                        playSfx('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3');
+                    }
+                    winOverlay.classList.remove('hidden');
+                }
+                loadingScreen.classList.add('hidden');
+            });
         }
 
-        // Initialize voice load
-        window.speechSynthesis.getVoices();
+        // Cell Clicks
+        cells.forEach(cell => {
+            cell.addEventListener('click', async () => {
+                const idx = cell.dataset.index;
+                if (!isMyTurn || cell.innerText !== "" || !gameActive) return;
+
+                playSfx('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
+                
+                const roomSnap = await get(ref(db, `rooms/${roomId}`));
+                const currentBoard = roomSnap.val().board;
+                currentBoard[idx] = mySymbol;
+
+                const winner = calculateWinner(currentBoard);
+                const isDraw = !currentBoard.includes("") && !winner;
+
+                const updates = {};
+                updates[`rooms/${roomId}/board`] = currentBoard;
+                updates[`rooms/${roomId}/turn`] = mySymbol === '❤️' ? '😘' : '❤️';
+                if (winner) updates[`rooms/${roomId}/winner`] = winner;
+                if (isDraw) updates[`rooms/${roomId}/winner`] = 'draw';
+
+                update(ref(db), updates);
+            });
+        });
+
+        function calculateWinner(board) {
+            for (let p of winPatterns) {
+                const [a, b, c] = p;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return board[a];
+                }
+            }
+            return null;
+        }
+
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            set(ref(db, `rooms/${roomId}/board`), Array(9).fill(""));
+            set(ref(db, `rooms/${roomId}/winner`), "");
+            set(ref(db, `rooms/${roomId}/turn`), "❤️");
+        });
+
+        createBalloons();
     </script>
 </body>
 </html>
