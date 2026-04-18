@@ -15,53 +15,51 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: linear-gradient(135deg, #feb47b, #ff7eb3); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
 
-        /* FIXED BRANDING */
         .modder-branding { position: fixed; top: 0; width: 100%; text-align: center; padding: 10px; background: rgba(0,0,0,0.1); backdrop-filter: blur(10px); color: #fff; font-weight: bold; font-size: 1.1rem; z-index: 5000; text-shadow: 0 0 15px var(--pink); border-bottom: 2px solid var(--glass); }
 
         .ludo-container {
-            position: relative; width: 95vw; max-width: 420px; aspect-ratio: 1;
+            position: relative; width: 95vw; max-width: 400px; aspect-ratio: 1;
             background: #fff; border: 8px solid var(--deep-pink);
             display: grid; grid-template-columns: repeat(15, 1fr);
             grid-template-rows: repeat(15, 1fr); border-radius: 12px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
 
-        .cell { border: 0.1px solid #eee; position: relative; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        .cell { border: 0.1px solid #eee; position: relative; display: flex; align-items: center; justify-content: center; z-index: 1; font-size: 10px; }
         .home-base { grid-row: span 6; grid-column: span 6; padding: 15px; position: relative; z-index: 2; }
         .rose-area { background: var(--rose); }
         .peach-area { background: var(--peach); }
         .inner-white { width: 100%; height: 100%; background: #fff; border-radius: 10px; display: grid; grid-template-columns: 1fr 1fr; padding: 10px; }
-        .slot { border-radius: 50%; background: #eee; margin: 5px; border: 2px dashed #ccc; display: flex; justify-content: center; align-items: center; }
+        .slot { border-radius: 50%; background: #eee; margin: 5px; border: 2px dashed #ccc; display: flex; justify-content: center; align-items: center; position: relative; }
 
         .path-rose { background: var(--rose) !important; }
         .path-peach { background: var(--peach) !important; }
         .safe-zone { background: #e0e0e0 !important; }
         .safe-zone::after { content: '⭐'; color: #777; font-size: 12px; }
 
-        .center-home { grid-area: 7 / 7 / span 3 / span 3; background: conic-gradient(var(--rose), #fff, var(--peach), #fff); border: 1px solid #333; z-index: 2; }
+        .center-home { grid-area: 7 / 7 / span 3 / span 3; background: conic-gradient(var(--rose), #fff, var(--peach), #fff); border: 1px solid #333; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
 
-        /* TOKENS */
         .token {
-            width: 24px; height: 24px; border-radius: 50%;
+            width: 22px; height: 22px; border-radius: 50%;
             border: 2px solid #fff; position: absolute; z-index: 100;
-            cursor: pointer; transition: all 0.2s ease;
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         .token-rose { background: radial-gradient(circle, var(--heart-red), #880e4f); }
         .token-peach { background: radial-gradient(circle, #ff9800, #e65100); }
-        .can-move { animation: bounce 0.4s infinite alternate; border: 2px solid gold; box-shadow: 0 0 10px gold; }
-        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.25); } }
+        .can-move { animation: bounce 0.4s infinite alternate; border: 2px solid gold; box-shadow: 0 0 15px gold; z-index: 101; }
+        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.3); } }
 
-        .ui-panel { margin-top: 15px; width: 95vw; max-width: 420px; display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--glass); border-radius: 20px; backdrop-filter: blur(15px); }
-        .dice-btn { width: 60px; height: 60px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; border: 4px solid var(--pink); }
-        .dice-rolling { animation: roll 0.2s infinite; }
+        .ui-panel { margin-top: 15px; width: 95vw; max-width: 400px; display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--glass); border-radius: 20px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.3); }
+        .dice-btn { width: 60px; height: 60px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; border: 4px solid var(--pink); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .dice-rolling { animation: roll 0.2s infinite; pointer-events: none; opacity: 0.8; }
         @keyframes roll { 0% { transform: rotate(0); } 100% { transform: rotate(180deg); } }
 
-        .action-btns button { background: #fff; border: none; padding: 10px; border-radius: 50%; margin-left: 5px; cursor: pointer; font-size: 1.2rem; }
+        .action-btns button { background: #fff; border: none; padding: 10px; border-radius: 50%; margin-left: 5px; cursor: pointer; font-size: 1.2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .active-voice { background: #4caf50 !important; color: white; }
 
-        #login { position: fixed; inset: 0; background: var(--rose); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        input { padding: 15px; margin: 10px; border-radius: 30px; border: none; width: 280px; text-align: center; font-weight: bold; }
+        #login { position: fixed; inset: 0; background: var(--rose); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        input { padding: 15px; margin: 10px; border-radius: 30px; border: none; width: 280px; text-align: center; font-weight: bold; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -69,18 +67,18 @@
     <div class="modder-branding">MODDER - SIVASINGH 🤌</div>
 
     <div id="login">
-        <h1 style="color:#fff; margin-bottom:20px;">FOLLOW @SMSS1708 💕</h1>
-        <input type="text" id="roomID" placeholder="Enter your Code">
+        <h1 style="color:#fff; margin-bottom:20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.2);">FOLLOW @SMSS1708 💕</h1>
+        <input type="text" id="roomID" placeholder="Enter Love Code (Room ID)">
         <input type="text" id="userName" placeholder="Your Sweet Name">
-        <button onclick="startGame()" style="padding:15px 40px; border-radius:30px; border:none; background:#fff; color:var(--deep-pink); font-weight:bold; cursor:pointer;">START GAME ✨</button>
+        <button onclick="startGame()" style="padding:15px 40px; border-radius:30px; border:none; background:#fff; color:var(--deep-pink); font-weight:bold; cursor:pointer; margin-top: 10px;">START GAME ✨</button>
     </div>
 
     <div class="ludo-container" id="board">
-        <div class="center-home"></div>
+        <div class="center-home" id="home-center"></div>
     </div>
 
     <div class="ui-panel">
-        <div id="status" style="color:#fff; font-weight:bold; font-size: 0.8rem; width:80px;">Ready?</div>
+        <div id="status" style="color:#fff; font-weight:bold; font-size: 0.9rem; width:100px; text-transform: uppercase;">Connecting...</div>
         <div class="dice-btn" id="dice">🎲</div>
         <div class="action-btns">
             <button id="musicBtn" onclick="toggleMusic()">🎵</button>
@@ -102,14 +100,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // REAL LUDO KING PATHS
+        // Path definitions
         const rosePath = ["c-7-2","c-7-3","c-7-4","c-7-5","c-7-6","c-6-7","c-5-7","c-4-7","c-3-7","c-2-7","c-1-7","c-1-8","c-1-9","c-2-9","c-3-9","c-4-9","c-5-9","c-6-9","c-7-10","c-7-11","c-7-12","c-7-13","c-7-14","c-7-15","c-8-15","c-9-15","c-9-14","c-9-13","c-9-12","c-9-11","c-9-10","c-10-9","c-11-9","c-12-9","c-13-9","c-14-9","c-15-9","c-15-8","c-15-7","c-14-7","c-13-7","c-12-7","c-11-7","c-10-7","c-9-6","c-9-5","c-9-4","c-9-3","c-9-2","c-9-1","c-8-1","c-8-2","c-8-3","c-8-4","c-8-5","c-8-6"];
         const peachPath = ["c-9-14","c-9-13","c-9-12","c-9-11","c-9-10","c-10-9","c-11-9","c-12-9","c-13-9","c-14-9","c-15-9","c-15-8","c-15-7","c-14-7","c-13-7","c-12-7","c-11-7","c-10-7","c-9-6","c-9-5","c-9-4","c-9-3","c-9-2","c-9-1","c-8-1","c-7-1","c-7-2","c-7-3","c-7-4","c-7-5","c-7-6","c-6-7","c-5-7","c-4-7","c-3-7","c-2-7","c-1-7","c-1-8","c-1-9","c-2-9","c-3-9","c-4-9","c-5-9","c-6-9","c-7-10","c-7-11","c-7-12","c-7-13","c-7-14","c-7-15","c-8-15","c-8-14","c-8-13","c-8-12","c-8-11","c-8-10"];
 
         let currentRoom, myName, myColor, turn, lastRoll = 0, canRoll = false;
         
-        // PLAYLIST
-        const playlist = [new Audio('love.mp3'), new Audio('love1.mp3'), new Audio('sad.mp3'), new Audio('tere-liye.mp3')];
+        // Music Logic
+        const playlist = [new Audio('love.mp3'), new Audio('love1.mp3')];
         let currentTrack = 0;
         window.toggleMusic = () => {
             playlist.forEach(s => s.pause());
@@ -119,7 +117,7 @@
             currentTrack = (currentTrack + 1) % playlist.length;
         };
 
-        // VOICE CHAT
+        // Voice Logic (PeerJS)
         let peer;
         window.initVoice = () => {
             if(peer) return;
@@ -148,13 +146,13 @@
                     });
                 }
             });
-            alert("Voice Connected!");
         };
 
         window.startGame = function() {
-            currentRoom = document.getElementById('roomID').value;
-            myName = document.getElementById('userName').value;
-            if(!currentRoom || !myName) return;
+            currentRoom = document.getElementById('roomID').value.trim();
+            myName = document.getElementById('userName').value.trim();
+            if(!currentRoom || !myName) return alert("Please enter both fields!");
+            
             document.getElementById('login').style.display = 'none';
             initBoard();
             
@@ -164,11 +162,19 @@
                 if(!data) {
                     set(roomRef, { turn: 'rose', roll: 0, p1: [-1,-1,-1,-1], p2: [-1,-1,-1,-1], p1_n: myName });
                     myColor = 'rose';
-                } else if(!myColor) {
-                    if(data.p1_n === myName) myColor = 'rose';
-                    else { update(roomRef, { p2_n: myName }); myColor = 'peach'; }
+                } else {
+                    if(!myColor) {
+                        if(data.p1_n === myName) myColor = 'rose';
+                        else if(!data.p2_n || data.p2_n === myName) { 
+                            update(roomRef, { p2_n: myName }); 
+                            myColor = 'peach'; 
+                        } else {
+                            alert("Room Full!");
+                            window.location.reload();
+                        }
+                    }
+                    syncGame(data);
                 }
-                syncGame(data);
             });
         };
 
@@ -204,48 +210,88 @@
             if(!canRoll) return;
             canRoll = false;
             this.classList.add('dice-rolling');
+            
             setTimeout(() => {
                 const r = Math.floor(Math.random() * 6) + 1;
                 this.classList.remove('dice-rolling');
-                this.innerText = ['🎲','⚀','⚁','⚂','⚃','⚄','⚅'][r];
                 update(ref(db, `ludo_pro/${currentRoom}`), { roll: r });
-            }, 400);
+            }, 600);
         };
 
         function syncGame(data) {
             if(!data) return;
-            turn = data.turn; lastRoll = data.roll;
+            turn = data.turn; 
+            lastRoll = data.roll;
             const isMyTurn = turn === myColor;
-            document.getElementById('status').innerText = isMyTurn ? "YOUR TURN" : "WAITING...";
+            
+            document.getElementById('status').innerText = isMyTurn ? "Your Turn" : `${turn}'s Turn`;
+            document.getElementById('dice').innerText = ['🎲','⚀','⚁','⚂','⚃','⚄','⚅'][lastRoll] || '🎲';
+            
             canRoll = isMyTurn && lastRoll === 0;
 
+            // Clear old tokens
             document.querySelectorAll('.token').forEach(t => t.remove());
+            
+            // Draw all tokens
             data.p1.forEach((p, i) => renderToken(p, i, 'rose', data));
             data.p2.forEach((p, i) => renderToken(p, i, 'peach', data));
+
+            // AUTO-PASS LOGIC: Agar koi move possible nahi hai toh turn change karo
+            if(isMyTurn && lastRoll > 0) {
+                const myTokens = myColor === 'rose' ? data.p1 : data.p2;
+                const possibleMoves = myTokens.filter((p, i) => {
+                    if(p === -1) return lastRoll === 6;
+                    return (p + lastRoll) <= 55;
+                });
+
+                if(possibleMoves.length === 0) {
+                    setTimeout(() => {
+                        let nextT = (lastRoll === 6) ? myColor : (myColor === 'rose' ? 'peach' : 'rose');
+                        update(ref(db, `ludo_pro/${currentRoom}`), { roll: 0, turn: nextT });
+                    }, 1500);
+                }
+            }
         }
 
         function renderToken(p, i, col, data) {
             const t = document.createElement('div');
             t.className = `token token-${col}`;
-            if(p === -1) document.getElementById(`slot-${col}-${i}`).appendChild(t);
-            else {
+            
+            if(p === -1) {
+                document.getElementById(`slot-${col}-${i}`).appendChild(t);
+            } else if(p >= 55) {
+                document.getElementById('home-center').appendChild(t);
+                t.style.position = 'static';
+                t.style.margin = '2px';
+            } else {
                 const path = col === 'rose' ? rosePath : peachPath;
-                if(p < path.length) document.getElementById(path[p]).appendChild(t);
-                else { document.querySelector('.center-home').appendChild(t); t.style.position = 'static'; }
+                const cell = document.getElementById(path[p]);
+                if(cell) cell.appendChild(t);
             }
 
+            // Click Logic
             if(turn === myColor && col === myColor && lastRoll > 0) {
-                if((p === -1 && lastRoll === 6) || (p >= 0 && p + lastRoll <= 56)) {
+                const canMove = (p === -1 && lastRoll === 6) || (p >= 0 && p + lastRoll <= 55);
+                
+                if(canMove) {
                     t.classList.add('can-move');
-                    t.onclick = () => {
+                    t.onclick = (e) => {
+                        e.stopPropagation();
                         let newP = (p === -1) ? 0 : p + lastRoll;
+                        
+                        // Rule: 6 aane par turn wahi rehti hai
                         let nextT = (lastRoll === 6) ? myColor : (myColor === 'rose' ? 'peach' : 'rose');
-                        let arr = col === 'rose' ? [...data.p1] : [...data.p2];
-                        arr[i] = newP;
-                        const u = { roll: 0, turn: nextT };
-                        u[col === 'rose' ? 'p1' : 'p2'] = arr;
-                        update(ref(db, `ludo_pro/${currentRoom}`), u);
-                        if(newP === 56) alert("You Win! ❤️");
+                        
+                        let updatedPositions = col === 'rose' ? [...data.p1] : [...data.p2];
+                        updatedPositions[i] = newP;
+
+                        const updates = {};
+                        updates['roll'] = 0;
+                        updates['turn'] = nextT;
+                        updates[col === 'rose' ? 'p1' : 'p2'] = updatedPositions;
+                        
+                        update(ref(db, `ludo_pro/${currentRoom}`), updates);
+                        if(newP === 55) alert("Goal! ❤️");
                     };
                 }
             }
