@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ludo Pro | Modder Sivasingh</title>
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <title>Love Ludo Pro | Modder Sivasingh</title>
     <style>
         :root {
             --rose: #ff69b4; --pink: #ff1493; --deep-pink: #c71585;
@@ -25,31 +24,28 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
 
-        .cell { border: 0.2px solid #ddd; position: relative; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        .cell { border: 0.1px solid #eee; position: relative; display: flex; align-items: center; justify-content: center; }
         .home-base { grid-row: span 6; grid-column: span 6; padding: 15px; position: relative; }
         .rose-area { background: var(--rose); }
         .peach-area { background: var(--peach); }
         .inner-white { width: 100%; height: 100%; background: #fff; border-radius: 10px; display: grid; grid-template-columns: 1fr 1fr; padding: 10px; }
-        .slot { border-radius: 50%; background: #eee; margin: 5px; border: 2px dashed #ccc; position: relative; display: flex; justify-content: center; align-items: center; }
+        .slot { border-radius: 50%; background: #eee; margin: 5px; border: 2px dashed #ccc; display: flex; justify-content: center; align-items: center; position: relative; }
 
-        .path-rose { background: var(--rose) !important; }
-        .path-peach { background: var(--peach) !important; }
-        .safe-zone { background: #e0e0e0 !important; }
-        .safe-zone::after { content: '⭐'; color: #777; }
+        .center-home { grid-area: 7 / 7 / span 3 / span 3; background: conic-gradient(var(--rose), var(--peach), var(--rose), var(--peach)); border: 2px solid #333; }
 
-        .center-home { grid-area: 7 / 7 / span 3 / span 3; background: conic-gradient(var(--rose), #fff, var(--peach), #fff); border: 2px solid #333; }
-
-        /* GOTI */
+        /* GOTI (TOKEN) */
         .token {
-            width: 25px; height: 25px; border-radius: 50%;
-            border: 3px solid #fff; position: absolute; z-index: 500;
+            width: 80%; height: 80%; border-radius: 50%;
+            border: 2px solid #fff; z-index: 500;
             cursor: pointer; transition: all 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: absolute;
         }
         .token-rose { background: radial-gradient(circle, var(--heart-red), #880e4f); }
         .token-peach { background: radial-gradient(circle, #ff9800, #e65100); }
-        .can-move { animation: bounce 0.5s infinite alternate; border: 3px solid gold; }
-        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.2); } }
+        
+        .can-move { animation: bounce 0.4s infinite alternate; border: 3px solid gold; z-index: 1000; }
+        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.15); } }
 
         .ui-panel { margin-top: 15px; width: 95vw; max-width: 420px; display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--glass); border-radius: 20px; backdrop-filter: blur(15px); }
         .dice-btn { width: 60px; height: 60px; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; border: 4px solid var(--pink); transition: 0.2s; }
@@ -65,8 +61,8 @@
     <div class="modder-branding">MODDER - SIVASINGH 🤌</div>
 
     <div id="login">
-        <h1 style="color:#fff; margin-bottom:20px;">FOLLOW @SMSS1708 💕</h1>
-        <input type="text" id="roomID" placeholder="Enter Love Code (e.g. 123)">
+        <h1 style="color:#fff; margin-bottom:20px;">INSTA @SMSS1708 💕</h1>
+        <input type="text" id="roomID" placeholder="Enter Room ID">
         <input type="text" id="userName" placeholder="Your Name">
         <button onclick="startGame()" style="padding:15px 40px; border-radius:30px; border:none; background:#fff; color:var(--deep-pink); font-weight:bold; cursor:pointer;">JOIN GAME ✨</button>
     </div>
@@ -76,11 +72,9 @@
     </div>
 
     <div class="ui-panel">
-        <div id="status" style="color:#fff; font-weight:bold; width:100px;">Waiting...</div>
+        <div id="status" style="color:#fff; font-weight:bold;">Waiting...</div>
         <div class="dice-btn" id="dice">🎲</div>
-        <div class="action-btns">
-            <button onclick="toggleMusic()" style="padding:10px; border-radius:50%; border:none;">🎵</button>
-        </div>
+        <button onclick="alert('Music logic triggered!')" style="padding:10px; border-radius:50%; border:none;">🎵</button>
     </div>
 
     <script type="module">
@@ -101,40 +95,43 @@
         let lastDice = 0;
         let canRoll = false;
 
-        // Path Logic (Ludo Path Coordinates)
-        const pathRose = ["c-7-2", "c-7-1", "c-7-0", "c-7-0", "c-7-1", "c-7-2", "c-7-3", "c-7-4", "c-7-5", "c-6-7", "c-5-7", "c-4-7", "c-3-7", "c-2-7", "c-1-7", "c-1-8", "c-1-9", "c-2-9", "c-3-9", "c-4-9", "c-5-9", "c-6-9", "c-7-10", "c-7-11", "c-7-12", "c-7-13", "c-7-14", "c-7-15", "c-8-15", "c-9-15", "c-9-14", "c-9-13", "c-9-12", "c-9-11", "c-9-10", "c-10-9", "c-11-9", "c-12-9", "c-13-9", "c-14-9", "c-15-9", "c-15-8", "c-15-7", "c-14-7", "c-13-7", "c-12-7", "c-11-7", "c-10-7", "c-9-6", "c-9-5", "c-9-4", "c-9-3", "c-9-2", "c-9-1", "c-8-1", "c-8-2", "c-8-3", "c-8-4", "c-8-5", "c-8-6"];
-        const pathPeach = ["c-9-14", "c-9-15", "c-10-9", "c-11-9", "c-12-9", "c-13-9", "c-14-9", "c-15-9", "c-15-8", "c-15-7", "c-14-7", "c-13-7", "c-12-7", "c-11-7", "c-10-7", "c-9-6", "c-9-5", "c-9-4", "c-9-3", "c-9-2", "c-9-1", "c-8-1", "c-7-1", "c-7-2", "c-7-3", "c-7-4", "c-7-5", "c-6-7", "c-5-7", "c-4-7", "c-3-7", "c-2-7", "c-1-7", "c-1-8", "c-1-9", "c-2-9", "c-3-9", "c-4-9", "c-5-9", "c-6-9", "c-7-10", "c-7-11", "c-7-12", "c-7-13", "c-7-14", "c-7-15", "c-8-15", "c-8-14", "c-8-13", "c-8-12", "c-8-11", "c-8-10"];
+        // Correct Ludo Path Mapping
+        const pathRose = ["c-7-2","c-7-3","c-7-4","c-7-5","c-7-6","c-6-7","c-5-7","c-4-7","c-3-7","c-2-7","c-1-7","c-1-8","c-1-9","c-2-9","c-3-9","c-4-9","c-5-9","c-6-9","c-7-10","c-7-11","c-7-12","c-7-13","c-7-14","c-7-15","c-8-15","c-9-15","c-9-14","c-9-13","c-9-12","c-9-11","c-9-10","c-10-9","c-11-9","c-12-9","c-13-9","c-14-9","c-15-9","c-15-8","c-15-7","c-14-7","c-13-7","c-12-7","c-11-7","c-10-7","c-9-6","c-9-5","c-9-4","c-9-3","c-9-2","c-9-1","c-8-1","c-8-2","c-8-3","c-8-4","c-8-5","c-8-6"];
+        const pathPeach = ["c-9-14","c-9-13","c-9-12","c-9-11","c-9-10","c-10-9","c-11-9","c-12-9","c-13-9","c-14-9","c-15-9","c-15-8","c-15-7","c-14-7","c-13-7","c-12-7","c-11-7","c-10-7","c-9-6","c-9-5","c-9-4","c-9-3","c-9-2","c-9-1","c-8-1","c-7-1","c-7-2","c-7-3","c-7-4","c-7-5","c-6-7","c-5-7","c-4-7","c-3-7","c-2-7","c-1-7","c-1-8","c-1-9","c-2-9","c-3-9","c-4-9","c-5-9","c-6-9","c-7-10","c-7-11","c-7-12","c-7-13","c-7-14","c-7-15","c-8-15","c-8-14","c-8-13","c-8-12","c-8-11","c-8-10"];
 
         window.startGame = function() {
             currentRoom = document.getElementById('roomID').value;
             myName = document.getElementById('userName').value;
-            if(!currentRoom || !myName) return alert("Fill all fields");
+            if(!currentRoom || !myName) return alert("Please enter details");
             
             document.getElementById('login').style.display = 'none';
-            // Simple logic: first player is rose, second is peach
-            onValue(ref(db, `ludo_pro/${currentRoom}/players`), (snap) => {
+            initBoard();
+
+            const roomRef = ref(db, `ludo_pro/${currentRoom}`);
+            onValue(roomRef, (snap) => {
                 if(!snap.exists()) {
-                    set(ref(db, `ludo_pro/${currentRoom}`), {
-                        players: { p1: myName },
-                        turn: 'rose',
-                        dice: 1,
-                        p1_pos: [-1, -1, -1, -1],
-                        p2_pos: [-1, -1, -1, -1]
+                    set(roomRef, {
+                        turn: 'rose', dice: 1,
+                        p1_pos: [-1, -1, -1, -1], p2_pos: [-1, -1, -1, -1],
+                        p1_name: myName
                     });
                     myColor = 'rose';
-                } else if (!myColor) {
-                    update(ref(db, `ludo_pro/${currentRoom}/players`), { p2: myName });
-                    myColor = 'peach';
+                } else {
+                    const data = snap.val();
+                    if(!myColor) {
+                        if(data.p1_name === myName) myColor = 'rose';
+                        else {
+                            update(roomRef, { p2_name: myName });
+                            myColor = 'peach';
+                        }
+                    }
+                    syncGame(data);
                 }
-            }, { onlyOnce: true });
-
-            initBoard();
-            syncGame();
+            });
         };
 
         function initBoard() {
             const board = document.getElementById('board');
-            // Path cells
             for(let r=1; r<=15; r++) {
                 for(let c=1; c<=15; c++) {
                     if((r>=7 && r<=9) || (c>=7 && c<=9)) {
@@ -142,11 +139,10 @@
                         const cell = document.createElement('div');
                         cell.className = 'cell';
                         cell.id = `c-${r}-${c}`;
-                        // Colors for home paths
+                        // Path Colors
                         if(r==8 && c>=2 && c<=6) cell.style.background = "var(--rose)";
                         if(r==8 && c>=10 && c<=14) cell.style.background = "var(--peach)";
-                        if(r==7 && c==2) cell.classList.add('safe-zone');
-                        if(r==9 && c==14) cell.classList.add('safe-zone');
+                        if((r==7 && c==2) || (r==9 && c==14)) cell.style.background = "#ddd";
                         board.appendChild(cell);
                     }
                 }
@@ -159,10 +155,10 @@
             const base = document.createElement('div');
             base.className = `home-base ${type}-area`;
             base.style.gridArea = `${r}/${c}/span 6/span 6`;
-            let slots = `<div class="inner-white">`;
-            for(let i=0; i<4; i++) slots += `<div class="slot" id="slot-${type}-${i}"></div>`;
-            slots += `</div>`;
-            base.innerHTML = slots;
+            base.innerHTML = `<div class="inner-white">
+                <div class="slot" id="slot-${type}-0"></div><div class="slot" id="slot-${type}-1"></div>
+                <div class="slot" id="slot-${type}-2"></div><div class="slot" id="slot-${type}-3"></div>
+            </div>`;
             document.getElementById('board').appendChild(base);
         }
 
@@ -174,63 +170,45 @@
             
             setTimeout(() => {
                 const roll = Math.floor(Math.random() * 6) + 1;
+                diceBtn.innerText = ['','⚀','⚁','⚂','⚃','⚄','⚅'][roll];
                 diceBtn.classList.remove('dice-rolling');
-                const diceIcons = ['🎲','⚀','⚁','⚂','⚃','⚄','⚅'];
-                diceBtn.innerText = diceIcons[roll];
                 
                 update(ref(db, `ludo_pro/${currentRoom}`), { dice: roll });
-                
-                // Logic: If no tokens can move, change turn
                 checkPossibleMoves(roll);
             }, 600);
         };
 
         function checkPossibleMoves(roll) {
             const positions = myColor === 'rose' ? currentPositions.p1 : currentPositions.p2;
-            let canMoveAny = false;
-
-            positions.forEach((pos, i) => {
-                if(pos === -1 && roll === 6) canMoveAny = true;
-                if(pos >= 0 && (pos + roll) < 57) canMoveAny = true;
-            });
-
-            if(!canMoveAny && roll !== 6) {
-                setTimeout(switchTurn, 1000);
-            } else {
-                // Highlight movable tokens
-                renderTokens(currentPositions);
+            const canMove = positions.some(pos => (pos === -1 && roll === 6) || (pos >= 0 && pos + roll < 56));
+            
+            if(!canMove) {
+                setTimeout(() => {
+                    const nextTurn = myColor === 'rose' ? 'peach' : 'rose';
+                    update(ref(db, `ludo_pro/${currentRoom}`), { turn: nextTurn });
+                }, 1000);
             }
         }
 
-        function switchTurn() {
-            const nextTurn = myColor === 'rose' ? 'peach' : 'rose';
-            update(ref(db, `ludo_pro/${currentRoom}`), { turn: nextTurn });
-        }
+        let currentPositions = { p1: [], p2: [] };
 
-        let currentPositions = { p1: [-1,-1,-1,-1], p2: [-1,-1,-1,-1] };
+        function syncGame(data) {
+            currentPositions.p1 = data.p1_pos;
+            currentPositions.p2 = data.p2_pos;
+            lastDice = data.dice;
+            const isMyTurn = data.turn === myColor;
 
-        function syncGame() {
-            onValue(ref(db, `ludo_pro/${currentRoom}`), (snap) => {
-                const data = snap.val();
-                if(!data) return;
-                currentPositions = { p1: data.p1_pos, p2: data.p2_pos };
-                lastDice = data.dice;
-                
-                const isMyTurn = data.turn === myColor;
-                document.getElementById('status').innerText = isMyTurn ? "YOUR TURN" : "WAITING...";
-                document.getElementById('status').style.color = isMyTurn ? "gold" : "#fff";
-                
-                canRoll = isMyTurn && !document.querySelector('.can-move');
-                renderTokens(data);
-            });
+            document.getElementById('status').innerText = isMyTurn ? "YOUR TURN" : "WAITING...";
+            document.getElementById('status').style.color = isMyTurn ? "gold" : "#fff";
+            diceBtn.innerText = ['','⚀','⚁','⚂','⚃','⚄','⚅'][lastDice] || '🎲';
+            
+            canRoll = isMyTurn;
+            renderTokens(data);
         }
 
         function renderTokens(data) {
             document.querySelectorAll('.token').forEach(t => t.remove());
-            
-            // Render Rose Tokens
             data.p1_pos.forEach((pos, i) => placeToken(pos, i, 'rose'));
-            // Render Peach Tokens
             data.p2_pos.forEach((pos, i) => placeToken(pos, i, 'peach'));
         }
 
@@ -246,32 +224,24 @@
                 if(cell) cell.appendChild(token);
             }
 
-            // Click to move logic
-            if(color === myColor && ( (pos === -1 && lastDice === 6) || (pos >= 0 && pos + lastDice < 57) )) {
-                token.classList.add('can-move');
-                token.onclick = () => moveGoti(index, pos);
+            // Move Logic
+            if(color === myColor && canRoll === false) { // Can click after dice roll
+                if((pos === -1 && lastDice === 6) || (pos >= 0 && pos + lastDice < 56)) {
+                    token.classList.add('can-move');
+                    token.onclick = () => {
+                        let newPos = (pos === -1) ? 0 : pos + lastDice;
+                        const key = myColor === 'rose' ? 'p1_pos' : 'p2_pos';
+                        const newArr = [...(myColor === 'rose' ? currentPositions.p1 : currentPositions.p2)];
+                        newArr[index] = newPos;
+
+                        const updates = { [key]: newArr };
+                        if(lastDice !== 6) updates.turn = (myColor === 'rose' ? 'peach' : 'rose');
+                        
+                        update(ref(db, `ludo_pro/${currentRoom}`), updates);
+                    };
+                }
             }
         }
-
-        function moveGoti(index, currentPos) {
-            let newPos = currentPos === -1 ? 0 : currentPos + lastDice;
-            const key = myColor === 'rose' ? 'p1_pos' : 'p2_pos';
-            const updatedArray = [...currentPositions[myColor === 'rose' ? 'p1' : 'p2']];
-            updatedArray[index] = newPos;
-
-            const updates = {};
-            updates[key] = updatedArray;
-            
-            // If not 6, change turn
-            if(lastDice !== 6) {
-                updates['turn'] = myColor === 'rose' ? 'peach' : 'rose';
-            }
-
-            update(ref(db, `ludo_pro/${currentRoom}`), updates);
-        }
-
-        // Music
-        window.toggleMusic = () => alert("Music Playing... (Add your mp3 files to root)");
     </script>
 </body>
 </html>
